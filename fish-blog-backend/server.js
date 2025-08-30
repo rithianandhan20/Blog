@@ -140,5 +140,5 @@ app.delete("/blogs/:id", async (req, res) => {
 
 // Start server
 app.listen(PORT, () => {
-  console.log(`🚀 Server listening at http://localhost:5000`);
+  console.log(`🚀 Server listening at https://rithi.onrender.com/api/blogs`);
 });
