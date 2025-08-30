@@ -9,65 +9,57 @@ body {
   line-height: 1.6;
   scroll-behavior: smooth;
 }
-
-/* Full Width Container (general pages) */
-.container {
+/* Navbar full-width */
+.navbar {
   width: 100%;
-  margin: 0;
-  padding: 40px 60px;
-  box-sizing: border-box;
-}
-
-/* Fullscreen Section (for Home/About pages) */
-.fullscreen {
-  min-height: 100vh;      /* always fill full screen height */
-  display: flex;
-  flex-direction: column;
-  justify-content: center; /* center content vertically */
-  align-items: center;     /* center horizontally */
-  text-align: center;
-  padding: 40px 20px;
-  box-sizing: border-box;
-}
-
-/* Card (use only where you want boxed content like highlights/blogs) */
-.card {
-  background: aliceblue;
-  border-radius: 20px;
-  padding: 40px;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
-  margin-bottom: 30px;
-}
-
-/* Navbar */
-nav.navbar {
-  background: darkcyan;
-  padding: 16px 0;
+  background: teal;
   display: flex;
   justify-content: center;
-  gap: 40px;
-  position: sticky;
+  gap: 2rem;
+  padding: 1rem 0;
+  position: fixed;   /* sticks to top */
   top: 0;
-  z-index: 100;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  left: 0;
+  z-index: 1000;
 }
 
-nav.navbar a {
-  color: #fff;
-  font-size: 18px;
-  font-weight: 600;
+/* Navbar links */
+.navbar a {
   text-decoration: none;
-  padding: 10px 18px;
-  border-radius: 30px;
-  background: rgba(255, 255, 255, 0.15);
-  transition: all 0.3s ease;
+  color: white;
+  font-weight: bold;
+  padding: 0.5rem 1rem;
+  background: rgba(255,255,255,0.1);
+  border-radius: 25px;
+  transition: background 0.3s;
+}
+.navbar a:hover {
+  background: rgba(255,255,255,0.3);
 }
 
-nav.navbar a:hover {
-  background: cadetblue;
-  transform: scale(1.1);
+/* Fullscreen wrapper */
+.fullscreen {
+  min-height: 100vh;
+  width: 100%;
+  background: linear-gradient(to right, #dfffea, #f5fff7);
+  display: flex;
+  justify-content: center;   /* horizontal center */
+  align-items: center;       /* vertical center */
+  padding-top: 80px;         /* offset for fixed navbar */
+  box-sizing: border-box;
 }
+
+/* Card styling */
+.card {
+  background: #f0faff;
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+  max-width: 900px;
+  width: 90%;
+  text-align: center;
+}
+
 
 /* Headings */
 h1 {
