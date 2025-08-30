@@ -4,8 +4,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "serve -s build",
-    "build": "react-scripts build",
+    "start": "node server.js",
+    "build": "react-scripts",
     "dev": "nodemon server.js"
   },
   "keywords": [],
