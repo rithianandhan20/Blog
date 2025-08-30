@@ -10,16 +10,27 @@ body {
   scroll-behavior: smooth;
 }
 
-/* Full Width Container */
+/* Full Width Container (general pages) */
 .container {
   width: 100%;
   margin: 0;
-  padding: 40px 60px; /* bigger padding for breathing room */
+  padding: 40px 60px;
   box-sizing: border-box;
-  min-height: 100vh;
 }
 
-/* Card (use only where you want boxed content like highlights) */
+/* Fullscreen Section (for Home/About pages) */
+.fullscreen {
+  min-height: 100vh;      /* always fill full screen height */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* center content vertically */
+  align-items: center;     /* center horizontally */
+  text-align: center;
+  padding: 40px 20px;
+  box-sizing: border-box;
+}
+
+/* Card (use only where you want boxed content like highlights/blogs) */
 .card {
   background: aliceblue;
   border-radius: 20px;
@@ -201,6 +212,10 @@ form button:hover {
   }
 
   .container {
+    padding: 20px;
+  }
+
+  .fullscreen {
     padding: 20px;
   }
 
