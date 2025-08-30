@@ -52,15 +52,13 @@ html, body, #root {
   width: 100%;
   background: linear-gradient(to right, #dfffea, #f5fff7);
 
-  /* Center horizontally */
+  /* Center child (card) horizontally & vertically */
   display: flex;
   justify-content: center;   /* horizontal center */
   align-items: center;       /* vertical center */
 
-  /* Push content below navbar */
-  padding-top: 70px;
+  padding-top: 70px; /* keep space for navbar */
   box-sizing: border-box;
-  flex-direction: column; /* keeps card in middle column layout */
 }
 
 /* Card styling */
@@ -72,8 +70,8 @@ html, body, #root {
   max-width: 900px;
   width: 90%;
   text-align: center;
-  margin: 0 auto;  /* ensures horizontal center */
 }
+
 
 
 
