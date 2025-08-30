@@ -41,7 +41,7 @@ export default function BlogForm() {
         subtitle,
         content
       };
-
+   
       if (editId) {
         await axios.put(`${BACKEND_URL}/blogs/${editId}`, blogData);
         setEditId(null);
@@ -54,6 +54,8 @@ export default function BlogForm() {
       setSubtitle('');
       setContent('');
       fetchBlogs();
+       await axios.post("https://rithi.onrender.com/api/blogs", blogData);
+      alert("Blog submitted successfully!");
     } catch (err) {
       console.error('Error submitting blog:', err);
       alert('Failed to submit blog');
