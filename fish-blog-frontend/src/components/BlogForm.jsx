@@ -1,94 +1,91 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
-const BACKEND_URL = 'https://rithi.onrender.com/api/blogs';
-
+const BACKEND_URL = "https://rithi.onrender.com/api/blogs";
 
 export default function BlogForm() {
-  const [title, setTitle] = useState('');
-  const [subtitle, setSubtitle] = useState('');
-  const [content, setContent] = useState('');
+  const [title, setTitle] = useState("");
+  const [subtitle, setSubtitle] = useState("");
+  const [content, setContent] = useState("");
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(false);
   const [editId, setEditId] = useState(null);
 
+  // Fetch blogs on page load
   useEffect(() => {
     fetchBlogs();
   }, []);
 
   const fetchBlogs = async () => {
     try {
-      const res = await axios.get(`${BACKEND_URL}/blogs`);
+      const res = await axios.get(BACKEND_URL);
       setBlogs(res.data);
     } catch (err) {
-      console.error('Error fetching blogs:', err);
+      console.error("Error fetching blogs:", err);
     }
   };
 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Validation
     if (!title.trim() || !subtitle.trim() || !content.trim()) {
-      const res = await axios.post(`${BACKEND_URL}/blogs`, blogData);
-      alert('Please fill in all fields');
+      alert("Please fill in all fields");
       return;
     }
 
     try {
       setLoading(true);
-      const blogData = {
-        title,
-        subtitle,
-        content
-      };
-   
+      const blogData = { title, subtitle, content };
+
       if (editId) {
-        await axios.put(`${BACKEND_URL}/blogs/${editId}`, blogData);
+        // Update existing blog
+        await axios.put(`${BACKEND_URL}/${editId}`, blogData);
         setEditId(null);
       } else {
-        const res = await axios.post(`${BACKEND_URL}/blogs`, blogData);
-        setBlogs(prev => [res.data, ...prev]);
+        // Create new blog
+        const res = await axios.post(BACKEND_URL, blogData);
+        setBlogs((prev) => [res.data, ...prev]);
       }
 
-      setTitle('');
-      setSubtitle('');
-      setContent('');
+      // Reset form
+      setTitle("");
+      setSubtitle("");
+      setContent("");
       fetchBlogs();
-       await axios.post("https://rithi.onrender.com/api/blogs", blogData);
+
       alert("Blog submitted successfully!");
     } catch (err) {
-      console.error('Error submitting blog:', err);
-      alert('Failed to submit blog');
+      console.error("Error submitting blog:", err);
+      alert("Failed to submit blog");
     } finally {
       setLoading(false);
     }
   };
 
   const handleEdit = (blog) => {
-    const [mainTitle, sub] = blog.title.split(' — ');
-    setTitle(mainTitle || blog.title);
+    setTitle(blog.title);
     setSubtitle(blog.subtitle);
     setContent(blog.content);
     setEditId(blog._id);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleDelete = async (id) => {
-    if (window.confirm('Are you sure you want to delete this post?')) {
+    if (window.confirm("Are you sure you want to delete this post?")) {
       try {
-        await axios.delete(`${BACKEND_URL}/blogs/${id}`);
-
-        setBlogs(blogs.filter(b => b._id !== id));
+        await axios.delete(`${BACKEND_URL}/${id}`);
+        setBlogs(blogs.filter((b) => b._id !== id));
       } catch (err) {
-        console.error('Error deleting blog:', err);
-        alert('Failed to delete blog');
+        console.error("Error deleting blog:", err);
+        alert("Failed to delete blog");
       }
     }
   };
 
   return (
-    <div style={{ padding: '20px' }}>
-      <h1>{editId ? '✏️ Edit Blog Post' : '📝 Write a New Blog Post'}</h1>
+    <div style={{ padding: "20px" }}>
+      <h1>{editId ? "✏️ Edit Blog Post" : "📝 Write a New Blog Post"}</h1>
       <form onSubmit={handleSubmit}>
         <label>
           📌 TITLE:
@@ -100,7 +97,8 @@ export default function BlogForm() {
             required
           />
         </label>
-        <br /><br />
+        <br />
+        <br />
         <label>
           🖋️ SUBTITLE:
           <input
@@ -111,7 +109,8 @@ export default function BlogForm() {
             required
           />
         </label>
-        <br /><br />
+        <br />
+        <br />
         <label>
           🧾 CONTENT:
           <textarea
@@ -122,23 +121,38 @@ export default function BlogForm() {
             required
           />
         </label>
-        <br /><br />
+        <br />
+        <br />
         <button type="submit" disabled={loading}>
-          🚀 {loading ? 'Submitting...' : editId ? 'Update' : 'Submit'}
+          🚀 {loading ? "Submitting..." : editId ? "Update" : "Submit"}
         </button>
       </form>
 
-      <h2 style={{ marginTop: '40px' }}>📚 Submitted Posts</h2>
+      <h2 style={{ marginTop: "40px" }}>📚 Submitted Posts</h2>
       {blogs.length === 0 ? (
         <p>🧐 No posts yet. Start writing!</p>
       ) : (
         blogs.map((post) => (
-          <div key={post._id} className="blog-post" style={{ border: '2px solid #4fc3f7', margin: '10px', padding: '10px', borderRadius: '10px' }}>
+          <div
+            key={post._id}
+            className="blog-post"
+            style={{
+              border: "2px solid #4fc3f7",
+              margin: "10px",
+              padding: "10px",
+              borderRadius: "10px",
+            }}
+          >
             <h3>📝 {post.title}</h3>
             <h4>🔖 {post.subtitle}</h4>
             <p>{post.content}</p>
-            <div style={{ marginTop: '10px' }}>
-              <button onClick={() => handleEdit(post)} style={{ marginRight: '10px' }}>✏️ Edit</button>
+            <div style={{ marginTop: "10px" }}>
+              <button
+                onClick={() => handleEdit(post)}
+                style={{ marginRight: "10px" }}
+              >
+                ✏️ Edit
+              </button>
               <button onClick={() => handleDelete(post._id)}>🗑️ Delete</button>
             </div>
             <small>🕒 {new Date(post.createdAt).toLocaleString()}</small>
