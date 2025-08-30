@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const BACKEND_URL = 'https://rithi.onrender.com/api';
+const BACKEND_URL = 'https://rithi.onrender.com/api/blogs';
 
 
 export default function BlogForm() {
