@@ -29,6 +29,7 @@ export default function BlogForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!title.trim() || !subtitle.trim() || !content.trim()) {
+      const res = await axios.post(`${BACKEND_URL}/blogs`, blogData);
       alert('Please fill in all fields');
       return;
     }
@@ -74,6 +75,7 @@ export default function BlogForm() {
     if (window.confirm('Are you sure you want to delete this post?')) {
       try {
         await axios.delete(`${BACKEND_URL}/blogs/${id}`);
+
         setBlogs(blogs.filter(b => b._id !== id));
       } catch (err) {
         console.error('Error deleting blog:', err);
