@@ -12,6 +12,21 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+app.post("/api/blogs", async (req, res) => {
+  try {
+    const blog = new Blog(req.body);
+    await blog.save();
+    res.json({
+      id: blog._id,         // ✅ Apollo needs this
+      title: blog.title,
+      subtitle: blog.subtitle,
+      content: blog.content,
+      createdAt: blog.createdAt,
+    });
+  } catch (err) {
+    res.status(500).json({ error: "Failed to save blog" });
+  }
+});
 // Middleware
 app.use(cors({
   origin: "https://aquatic-j7rc.onrender.com", // ✅ frontend origin only
