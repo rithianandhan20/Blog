@@ -27,9 +27,30 @@ app.post("/api/blogs", async (req, res) => {
     res.status(500).json({ error: "Failed to save blog" });
   }
 });
+
+app.post("/api/blogs", async (req, res) => {
+  try {
+    const blog = new Blog(req.body);
+    await blog.save();
+    res.json(blog);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to save blog" });
+  }
+});
+
+app.get("/api/blogs", async (req, res) => {
+  try {
+    const blogs = await Blog.find().sort({ createdAt: -1 });
+    res.json(blogs);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch blogs" });
+  }
+});
+
 // Middleware
 app.use(cors({
-  origin: "https://aquatic-j7rc.onrender.com", // ✅ frontend origin only
+  origin: "*", // ✅ frontend origin only
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type"],
 }));
