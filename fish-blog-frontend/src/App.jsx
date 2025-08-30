@@ -68,6 +68,7 @@ import './App.css';
 function Home() {
   return (
     <div className='container'>
+    <div className='card'>
       <h1>🐠 Welcome to Aquatic Insights 🐡🐟</h1>
       <h2>📝 Latest Posts</h2>
       <p>1. “Top 5 Beginner Fish That Are Easy to Care For”<br /> 🐬 Beautiful, hardy, and peaceful — perfect for beginners!</p>
@@ -79,12 +80,14 @@ function Home() {
       <h2>🌟 Featured Fish of the Month 🌟</h2>
       <p>🐠 <strong>Betta Splendens</strong> (Betta Fish) - Vibrant, flowing fins & perfect for solo tanks. Great for beginners!</p>
     </div>
+    </div>
   );
 }
 
 function About() {
   return (
     <div className='container'>
+      <div className='card'>
       <h1>📖 About Aquatic Insights 📖</h1>
       <p>
         🌊🔍 Welcome to Fish Caring Blog, your trusted source for fish care tips! <br />
@@ -93,6 +96,7 @@ function About() {
         ☎️ Phone: 9867xxxxxx<br />
         📧 Email: aquaticInsights25@gmail.com
       </p>
+    </div>
     </div>
   );
 }

@@ -1,100 +1,107 @@
-const express = require('express');
-const cors = require('cors');
-const mongoose = require('mongoose');
-const path = require('path');
-const multer = require('multer');
-const fs = require('fs');
-require('dotenv').config(); // load .env variables
+const express = require("express");
+const cors = require("cors");
+
+const mongoose = require("mongoose");
+const dotenv = require("dotenv");
+const path = require("path");
+
+// Load environment variables
+dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// --- Middleware ---
-app.use(cors());
-app.use(express.json()); // parse JSON bodies
+// Middleware
+app.use(cors({
+  origin: "http://localhost:5173", // ✅ frontend origin only
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type"],
+}));
+app.use(express.json());
 
-// --- Serve uploaded images statically ---
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-
-// --- Ensure uploads folder exists ---
-const uploadDir = path.join(__dirname, 'uploads');
-if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir);
-}
-
-// --- Multer setup ---
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, 'uploads/'),
-  filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + '-' + file.originalname.replace(/\s+/g, '_');
-    cb(null, uniqueSuffix);
+// Connect MongoDB
+mongoose.connect(
+  process.env.MONGO_URI ||
+    "mongodb+srv://rithianandhan20:hjMTApwivwBgdNpI@cluster0.ryc7mvr.mongodb.net/fishblogdb?retryWrites=true&w=majority&appName=Cluster0",
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
   }
+)
+.then(() => console.log("✅ MongoDB Connected"))
+.catch((err) => console.error("❌ MongoDB Error:", err));
+
+// Serve uploaded images
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
+// Schema
+const blogSchema = new mongoose.Schema(
+  {
+    title: String,
+    subtitle: String,
+    content: String,
+  },
+  { timestamps: true }
+);
+
+const Blog = mongoose.model("Blog", blogSchema);
+
+// Routes
+app.get("/", (req, res) => {
+  res.send("🎉 Server running!");
 });
-const upload = multer({ storage });
-// --- Connect to MongoDB ---
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-})
-.then(() => console.log('MongoDB Connected'))
-.catch(err => console.log('MongoDB connection error:', err));
 
-// --- Blog model ---
-const blogSchema = new mongoose.Schema({
-  title: { type: String, required: true },
-  subtitle: { type: String, required: true },
-  content: { type: String, required: true },
-  imagePath: String,
-  createdAt: { type: Date, default: Date.now }
-});
-const Blog = mongoose.model('Blog', blogSchema);
-
-// --- Routes ---
-
-// Test route
-app.get('/', (req, res) => res.send('Flower Blog Backend Running'));
-
-// Create blog
-app.post('/blogs', upload.single('image'), async (req, res) => {
+// CREATE blog
+app.post("/blogs", async (req, res) => {
   try {
     const { title, subtitle, content } = req.body;
     if (!title || !subtitle || !content) {
-      return res.status(400).json({ message: 'Title, Subtitle and Content are required' });
+      return res
+        .status(400)
+        .json({ error: "Title, Subtitle, and Content are required" });
     }
-
-    const imagePath = req.file ? req.file.path.replace(/\\/g, '/') : null;
-
-const newBlog = new Blog({ title, subtitle, content, imagePath });
+    const newBlog = new Blog({ title, subtitle, content });
     await newBlog.save();
-
     res.status(201).json(newBlog);
   } catch (err) {
-    console.error('Error creating blog:', err);
-    res.status(500).json({ message: 'Server error' });
+    console.error("❌ Error submitting blog:", err);
+    res.status(500).json({ error: "Failed to submit blog" });
   }
 });
 
-// Get all blogs (newest first)
-app.get('/blogs', async (req, res) => {
+// READ all blogs
+app.get("/blogs", async (req, res) => {
   try {
     const blogs = await Blog.find().sort({ createdAt: -1 });
     res.json(blogs);
   } catch (err) {
-    console.error('Error fetching blogs:', err);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ error: "Failed to fetch blogs" });
   }
 });
 
-// --- Serve frontend in production ---
-if (process.env.NODE_ENV === 'production') {
-  const frontendPath = path.join(__dirname, 'plantaid-frontend', 'build');
-  app.use(express.static(frontendPath));
+// UPDATE blog
+app.put("/blogs/:id", async (req, res) => {
+  try {
+    const updated = await Blog.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
+    res.json(updated);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to update blog" });
+  }
+});
 
-  // This handles all frontend routes correctly
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(frontendPath, 'index.html'));
-  });
-}
+// DELETE blog
+app.delete("/blogs/:id", async (req, res) => {
+  try {
+    await Blog.findByIdAndDelete(req.params.id);
+    res.json({ message: "Blog deleted" });
+  } catch (err) {
+    res.status(500).json({ error: "Failed to delete blog" });
+  }
+});
 
-// --- Start server ---
-app.listen(PORT,() => console.log('Server running on http://localhost:${PORT}'));
+// Start server
+app.listen(PORT, () => {
+  console.log(`🚀 Server listening at http://localhost:5000`);
+});

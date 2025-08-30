@@ -24,6 +24,7 @@ export default function BlogForm() {
     }
   };
 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!title.trim() || !subtitle.trim() || !content.trim()) {
@@ -62,7 +63,7 @@ export default function BlogForm() {
   const handleEdit = (blog) => {
     const [mainTitle, sub] = blog.title.split(' — ');
     setTitle(mainTitle || blog.title);
-    setSubtitle(sub || '');
+    setSubtitle(blog.subtitle);
     setContent(blog.content);
     setEditId(blog._id);
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -129,6 +130,7 @@ export default function BlogForm() {
         blogs.map((post) => (
           <div key={post._id} className="blog-post" style={{ border: '2px solid #4fc3f7', margin: '10px', padding: '10px', borderRadius: '10px' }}>
             <h3>📝 {post.title}</h3>
+            <h4>🔖 {post.subtitle}</h4>
             <p>{post.content}</p>
             <div style={{ marginTop: '10px' }}>
               <button onClick={() => handleEdit(post)} style={{ marginRight: '10px' }}>✏️ Edit</button>
