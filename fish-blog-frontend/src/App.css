@@ -10,6 +10,15 @@ body {
   scroll-behavior: smooth;
 }
 /* Navbar full-width */
+/* Reset full height */
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Navbar full-width & fixed */
 .navbar {
   width: 100%;
   background: teal;
@@ -17,7 +26,7 @@ body {
   justify-content: center;
   gap: 2rem;
   padding: 1rem 0;
-  position: fixed;   /* sticks to top */
+  position: fixed;
   top: 0;
   left: 0;
   z-index: 1000;
@@ -37,7 +46,7 @@ body {
   background: rgba(255,255,255,0.3);
 }
 
-/* Fullscreen wrapper */
+/* Fullscreen wrapper (centering like a dashboard) */
 .fullscreen {
   min-height: 100vh;
   width: 100%;
@@ -45,7 +54,7 @@ body {
   display: flex;
   justify-content: center;   /* horizontal center */
   align-items: center;       /* vertical center */
-  padding-top: 80px;         /* offset for fixed navbar */
+  padding-top: 70px;         /* offset so navbar doesn't overlap */
   box-sizing: border-box;
 }
 
