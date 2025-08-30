@@ -1,9 +1,7 @@
-import { defineConfig } from 'vite'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
 
 export default defineConfig({
-  preview: {
-    allowedHosts: ['aquatic-j7rc.onrender.com'], // allow Render domain
-    host: '0.0.0.0',                            // listen on all IPs
-    port: process.env.PORT || 4173,             // use Render's port
-  },
-})
+  plugins: [react()],
+  base: './', // important for Render hosting
+});
