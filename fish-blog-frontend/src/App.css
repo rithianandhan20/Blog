@@ -11,25 +11,44 @@ body {
 }
 /* Navbar full-width */
 /* Reset full height */
-html, body, #root {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  font-family: 'Inter', sans-serif;
-}
 
 /* Navbar full-width & fixed */
 .navbar {
-  width: 100%;
-  background: teal;
+  background: #008080;
+  padding: 1rem;
   display: flex;
   justify-content: center;
   gap: 2rem;
-  padding: 1rem 0;
   position: fixed;
   top: 0;
   left: 0;
+  width: 100%;
   z-index: 1000;
+}
+
+/* Fullscreen wrapper */
+.fullscreen {
+  min-height: 100vh;
+  width: 100%;
+  background: linear-gradient(to right, #dfffea, #f5fff7);
+
+  display: flex;
+  justify-content: center;  /* horizontal center */
+  align-items: center;      /* vertical center */
+
+  padding-top: 80px; /* same as navbar height */
+  box-sizing: border-box;
+}
+
+/* Card styling */
+.card {
+  background: #f0faff;
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+  max-width: 900px;
+  width: 90%;
+  text-align: center;
 }
 
 /* Navbar links */
@@ -45,35 +64,6 @@ html, body, #root {
 .navbar a:hover {
   background: rgba(255,255,255,0.3);
 }
-
-/* Fullscreen wrapper (centering like a dashboard) */
-.fullscreen {
-  min-height: 100vh;
-  width: 100%;
-  background: linear-gradient(to right, #dfffea, #f5fff7);
-
-  /* Center child (card) horizontally & vertically */
-  display: flex;
-  justify-content: center;   /* horizontal center */
-  align-items: center;       /* vertical center */
-
-  padding-top: 70px; /* keep space for navbar */
-  box-sizing: border-box;
-}
-
-/* Card styling */
-.card {
-  background: #f0faff;
-  padding: 2rem;
-  border-radius: 16px;
-  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-  max-width: 900px;
-  width: 90%;
-  text-align: center;
-}
-
-
-
 
 /* Headings */
 h1 {
