@@ -10,22 +10,25 @@ body {
   scroll-behavior: smooth;
 }
 
-/* Container */
+/* Full Width Container */
 .container {
   width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 40px 20px;
+  margin: 0;
+  padding: 40px 60px; /* bigger padding for breathing room */
   box-sizing: border-box;
   min-height: 100vh;
 }
+
+/* Card (use only where you want boxed content like highlights) */
 .card {
-  background:aliceblue;
+  background: aliceblue;
   border-radius: 20px;
   padding: 40px;
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
   transition: box-shadow 0.3s ease, transform 0.3s ease;
+  margin-bottom: 30px;
 }
+
 /* Navbar */
 nav.navbar {
   background: darkcyan;
